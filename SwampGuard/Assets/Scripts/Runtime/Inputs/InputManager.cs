@@ -37,4 +37,13 @@ public class InputManager : MonoSingelton<InputManager>
         return _playerControls.Player.Jump.triggered;
     }
 
+    internal bool IsRunKeyPressed()
+    {
+        return _playerControls.Player.SpeedUp.triggered;
+    }
+
+    internal bool IsFireKeyPressed()
+    {
+        return _playerControls.Player.Fire.triggered;
+    }
 }

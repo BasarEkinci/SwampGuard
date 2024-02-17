@@ -1,45 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] float moveSpeed;
-    [SerializeField] Transform orientation;
+    [SerializeField] private float moveSmoothTime;
+    [SerializeField] private float gravityStrength;
+    [SerializeField] private float jumpStrenght;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
 
-    private Vector3 _moveDirection;
-    private Rigidbody _rb;
+    private CharacterController _controller;
+    private Vector3 _currentMoveVelocity;
+    private Vector3 _moveDampVelocity;
+    private Vector3 currentForceVelocity;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _controller = GetComponent<CharacterController>();
     }
-    private void Start()
-    {
-        _rb.freezeRotation = true;
-    }
+
     private void Update()
     {
-        GetMovementInput();
-        RotatePlayer();
+        PlayerMovement();
     }
 
-    private void FixedUpdate()
+    private void PlayerMovement()
     {
-        MovePlayer();
-    }
-    private Vector2 GetMovementInput()
-    {
-        return InputManager.Instance.GetMovementInput();
-    }
-    private void MovePlayer()
-    {   
-        _moveDirection = orientation.forward * GetMovementInput().y + orientation.right * GetMovementInput().x;
-        _rb.AddForce(_moveDirection.normalized * moveSpeed * 10f, ForceMode.Acceleration);
-    }
+        Vector2 input = InputManager.Instance.GetMovementInput();
 
-    private void RotatePlayer()
-    {
-        transform.rotation = orientation.rotation;
+        Vector3 playerInput = new Vector3(input.x, 0, input.y);
+
+        if(playerInput.magnitude > 1f)
+        {
+            playerInput.Normalize();
+        }
+
+        Vector3 moveVector = transform.TransformDirection(playerInput);
+        float currentSpeed = InputManager.Instance.IsRunKeyPressed() ? runSpeed : walkSpeed;
+
+        _currentMoveVelocity = Vector3.SmoothDamp(
+            _currentMoveVelocity,
+            moveVector * currentSpeed,
+            ref _moveDampVelocity,
+            moveSmoothTime
+        );
+
+        _controller.Move(_currentMoveVelocity * Time.deltaTime);
+
+        Ray groundChechkRay = new Ray(transform.position, Vector3.down);
+        if(Physics.Raycast(groundChechkRay, 1.1f))
+        {
+            currentForceVelocity.y = -2f;
+
+            if(InputManager.Instance.IsJumpKeyPressed())
+            {
+                currentForceVelocity.y = jumpStrenght;
+            }
+        }
+        else
+        {
+            currentForceVelocity.y -= gravityStrength * Time.deltaTime;
+        }
+
+        _controller.Move(currentForceVelocity * Time.deltaTime);
     }
 }
