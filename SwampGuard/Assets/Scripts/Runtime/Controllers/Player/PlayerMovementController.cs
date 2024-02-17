@@ -1,48 +1,45 @@
-using Unity.VisualScripting;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private InputManager _inputManager;
+    [SerializeField] float moveSpeed;
+    [SerializeField] Transform orientation;
 
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    private Transform _cameraTransform;
-
-    [SerializeField] private float playerSpeed = 2.0f;
-    [SerializeField] private float jumpHeight = 1.0f;
-    [SerializeField] private float gravityValue = -9.81f;
+    private Vector3 _moveDirection;
+    private Rigidbody _rb;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        _rb = GetComponent<Rigidbody>();
     }
-
     private void Start()
     {
-        _cameraTransform = Camera.main.transform;
+        _rb.freezeRotation = true;
+    }
+    private void Update()
+    {
+        GetMovementInput();
+        RotatePlayer();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
+        MovePlayer();
+    }
+    private Vector2 GetMovementInput()
+    {
+        return InputManager.Instance.GetMovementInput();
+    }
+    private void MovePlayer()
+    {   
+        _moveDirection = orientation.forward * GetMovementInput().y + orientation.right * GetMovementInput().x;
+        _rb.AddForce(_moveDirection.normalized * moveSpeed * 10f, ForceMode.Acceleration);
+    }
 
-        Vector2 playerMovement = _inputManager.GetMovementInput();
-        Vector3 move = new Vector3(playerMovement.x, 0, playerMovement.y);
-        move = _cameraTransform.forward * move.z + _cameraTransform.right * move.x;
-        move.y = 0f;
-        controller.Move(move * Time.deltaTime * playerSpeed);
-        transform.rotation = Quaternion.Euler(0, _cameraTransform.rotation.eulerAngles.y, 0);
-        if (_inputManager.IsJumpKeyPressed() && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+    private void RotatePlayer()
+    {
+        transform.rotation = orientation.rotation;
     }
 }
