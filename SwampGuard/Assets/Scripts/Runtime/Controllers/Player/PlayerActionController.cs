@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionController : MonoBehaviour
+namespace Runtime.Controllers.Player
 {
-    private Animator _animator;
-    private bool _isShooting;
-    private void Awake()
+    public class PlayerActionController : MonoBehaviour
     {
-        _animator = GetComponent<Animator>();
-    }
+        private Animator _animator;
+        private bool _isShooting;
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
-    private void Update()
-    {
-        _isShooting = InputManager.Instance.IsFireKeyPressed();
-        _animator.SetBool("isShooting", _isShooting);
-        Debug.Log(_isShooting);
+        private void Update()
+        {
+            _isShooting = InputManager.Instance.IsFireKeyPressed();
+            _animator.SetBool("isShooting", _isShooting);
+        }
     }
 }
