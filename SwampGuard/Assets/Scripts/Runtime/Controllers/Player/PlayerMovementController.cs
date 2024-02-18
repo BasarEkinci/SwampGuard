@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private float moveSmoothTime;
-    [SerializeField] private float gravityStrength;
-    [SerializeField] private float jumpStrenght;
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
-
     private CharacterController _controller;
     private Vector3 _currentMoveVelocity;
     private Vector3 _moveDampVelocity;
@@ -17,13 +11,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
     }
-
-    private void Update()
-    {
-        PlayerMovement();
-    }
-
-    private void PlayerMovement()
+    internal void MovePlayer(float moveSmoothTime, float gravityStrength, float jumpStrenght, float walkSpeed, float runSpeed)
     {
         Vector2 input = InputManager.Instance.GetMovementInput();
 
