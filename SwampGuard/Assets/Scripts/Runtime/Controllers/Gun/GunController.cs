@@ -1,5 +1,6 @@
 using System.Collections;
 using Runtime.Data;
+using Runtime.Managers;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Runtime.COntrollers
         [Header("References")]
         [SerializeField] private GunData gunData;
         [SerializeField] private TMP_Text ammoText;
+        [SerializeField] private ParticleSystem muzzleFlash;
 
         [Header("Gun Settings")]
         [SerializeField] private Transform gunBarrel;
@@ -26,8 +28,8 @@ namespace Runtime.COntrollers
         private float _oneBulletReloadTime;
         private int _damage;
         private float _fireRate;
-
         private bool _isShooting;
+        private bool _isReloading;
 
         
 #endregion
@@ -49,7 +51,7 @@ namespace Runtime.COntrollers
         private void Update()
         {
             ammoText.text = $"{_currentAmmo}/{_maxAmmo}";
-            if(!_isShooting && InputManager.Instance.IsFireKeyPressed())
+            if(!_isShooting && InputManager.Instance.IsFireKeyPressed() && !_isReloading)
             {
                 _isShooting = true;
                 Shoot();
@@ -64,9 +66,8 @@ namespace Runtime.COntrollers
         private void Shoot()
         {
             
-            if(_currentAmmo > 0)
+            if(_currentAmmo > 0 && !_isReloading)
             {   
-
                 RaycastHit hit;
                 if(Physics.Raycast(gunBarrel.position, gunBarrel.forward, out hit, fireRange))
                 {
@@ -92,6 +93,8 @@ namespace Runtime.COntrollers
         private IEnumerator FireRate()
         {
             _animator.SetBool("isShooting", true);
+            SoundManager.Instance.PlayOneShot(0);
+            muzzleFlash.Play();
             yield return new WaitForSeconds(_fireRate);
             _isShooting = false;
             _currentAmmo--;
@@ -100,12 +103,16 @@ namespace Runtime.COntrollers
         private IEnumerator ReloadCoroutine()
         {
             _animator.SetBool("isReloading", true);
+            _isReloading = true;
             while(_currentAmmo != _maxAmmo)
             {
                 yield return new WaitForSeconds(_oneBulletReloadTime);
+                SoundManager.Instance.PlayOneShot(1);
                 _currentAmmo++;
             }
+            SoundManager.Instance.PlayOneShot(2);
             _animator.SetBool("isReloading", false);
+            _isReloading = false;
         }
         private void OnDrawGizmos()
         {
