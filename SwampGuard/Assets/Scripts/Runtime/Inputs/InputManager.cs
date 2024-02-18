@@ -8,8 +8,6 @@ public class InputManager : MonoSingelton<InputManager>
     {
         SingeltonThisGameObject(this);
         _playerControls = new PlayerControls();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnEnable()
@@ -45,5 +43,10 @@ public class InputManager : MonoSingelton<InputManager>
     internal bool IsFireKeyPressed()
     {
         return _playerControls.Player.Fire.triggered;
+    }
+    
+    internal bool IsReloadKeyPressed()
+    {
+        return _playerControls.Player.Reload.triggered;
     }
 }
