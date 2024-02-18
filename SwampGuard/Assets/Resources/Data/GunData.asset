@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   maxAmmo: 10
-  reloadTime: 0.5
+  oneBulletReloadTime: 0.6
+  fireRate: 0.7
