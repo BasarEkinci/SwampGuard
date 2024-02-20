@@ -7,8 +7,8 @@ namespace Runtime.Data
     {
         public int damage;
         public int maxAmmo;
-        public float oneBulletReloadTime;
-        public float fireRate;
+        public int oneBulletReloadTime;
+        public int fireRate;
 
     }
 }

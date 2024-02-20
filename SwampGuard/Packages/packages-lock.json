@@ -172,6 +172,24 @@
       },
       "url": "https://packages.unity.com"
     },
+    "csharpdevtools": {
+      "version": "https://github.com/MrUnbelievable92/C-Sharp-Dev-Tools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2d42bdbfaaf990f715c2af6c1dcbfd4911b6c1e4"
+    },
+    "maxmath": {
+      "version": "https://github.com/MrUnbelievable92/MaxMath.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "csharpdevtools": "1.0.8",
+        "com.unity.burst": "1.5.0",
+        "com.unity.mathematics": "1.2.1"
+      },
+      "hash": "f59e9c2f5587b60b04ca0864a3b8f9153ccb301d"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
