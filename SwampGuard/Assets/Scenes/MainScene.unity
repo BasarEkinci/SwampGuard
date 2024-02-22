@@ -198,9 +198,11 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 3cffac48f74024b0fb76489d41beefa2, type: 2}
   ammoText: {fileID: 327571909}
   muzzleFlash: {fileID: 8551712425186794882}
+  hitEffect: {fileID: 8810240522087074770, guid: 02a0b894b860b449199e1a3187f46bf0,
+    type: 3}
   gunBarrel: {fileID: 1456895816}
   fireRange: 5
-  layer:
+  layerMask:
     serializedVersion: 2
     m_Bits: 64
 --- !u!1 &108081508
@@ -310,7 +312,7 @@ MonoBehaviour:
   walkSpeed: 5
   runSpeed: 8
   playerCamera: {fileID: 1667242202}
-  sensitivies: {x: 400, y: 400}
+  sensitivities: {x: 200, y: 200}
 --- !u!1 &203354122
 GameObject:
   m_ObjectHideFlags: 0
@@ -5351,7 +5353,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -5836,10 +5838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138675232063242099b7eb7e3c653a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClips:
+  audioClips:
   - {fileID: 8300000, guid: 86083188d8525433c98550d5bb96c735, type: 3}
   - {fileID: 8300000, guid: 65e67f00f9b3b4166bec90773a35d2d7, type: 3}
   - {fileID: 8300000, guid: 10d9bd195df1e4b318a890758e2aac25, type: 3}
+  - {fileID: 8300000, guid: 267e30cad65144157a9ff9b07975aee0, type: 3}
 --- !u!4 &1386670526
 Transform:
   m_ObjectHideFlags: 0

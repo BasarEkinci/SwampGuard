@@ -1,10 +1,9 @@
-using Runtime.Controllers.Enemy;
 using Runtime.Data;
 using Runtime.Managers;
 using TMPro;
-using System.Collections;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Runtime.Controllers.Enemy;
 
 namespace Runtime.Controllers.Gun
 {
@@ -16,12 +15,13 @@ namespace Runtime.Controllers.Gun
         [SerializeField] private GunData gunData;
         [SerializeField] private TMP_Text ammoText;
         [SerializeField] private ParticleSystem muzzleFlash;
+        [SerializeField] private ParticleSystem hitEffect;
 
         [Header("Gun Settings")]
         [SerializeField] private Transform gunBarrel;
 
         [SerializeField] private float fireRange;
-        [SerializeField] private LayerMask layer;
+        [SerializeField] private LayerMask layerMask;
         #endregion
 
         #region Private Properties
@@ -43,7 +43,6 @@ namespace Runtime.Controllers.Gun
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-
         }
 
         private void Start()
@@ -52,14 +51,14 @@ namespace Runtime.Controllers.Gun
             _currentAmmo = _maxAmmo;
             _oneBulletReloadTime = gunData.oneBulletReloadTime;
             _damage = gunData.damage;
-            _fireRate = (int)gunData.fireRate;
+            _fireRate = gunData.fireRate;
             _isShooting = false;
         }
         private void Update()
         {
             ammoText.text = $"{_currentAmmo}/{_maxAmmo}";
             
-            if (InputManager.Instance.IsFireKeyPressed())
+            if(InputManager.Instance.IsFireKeyPressed())
                 Shoot();
             if(InputManager.Instance.IsReloadKeyPressed())
                 Reload();
@@ -67,15 +66,23 @@ namespace Runtime.Controllers.Gun
 
         private async void Shoot()
         {
-            if(_currentAmmo <= 0 || _isReloading || _isShooting) return;
-            _isShooting = true;
-            _animator.SetBool(IsShooting, true);
-            muzzleFlash.Play();
-            SoundManager.Instance.PlayOneShot(0);
-            _currentAmmo--;
-            await UniTask.Delay(_fireRate);
-            _animator.SetBool(IsShooting, false);
-            _isShooting = false;
+            if(_isReloading || _isShooting) return;
+            if(_currentAmmo >= 1)
+            {
+                _isShooting = true;
+                _animator.SetBool(IsShooting, true);
+                muzzleFlash.Play();
+                DetectEnemy();
+                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.ShotSound);
+                _currentAmmo--;
+                await UniTask.Delay(_fireRate);
+                _animator.SetBool(IsShooting, false);
+                _isShooting = false;
+            }
+            else
+            {
+                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.EmptyShotSound);
+            }
         }
 
         private async void Reload()
@@ -86,12 +93,28 @@ namespace Runtime.Controllers.Gun
                 _isReloading = true;
                 _animator.SetBool(IsReloading, true);
                 await UniTask.Delay(_oneBulletReloadTime); 
-                SoundManager.Instance.PlayOneShot(1);
+                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.ReloadSound);
                 _currentAmmo++;
             }
-            _isReloading = false;
-            SoundManager.Instance.PlayOneShot(2);
+            SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.LoadSound);
             _animator.SetBool(IsReloading, false);
+            _isReloading = false;
+        }
+        
+        private void DetectEnemy()
+        {
+            Ray ray = new Ray(gunBarrel.position, transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, fireRange, layerMask))
+            {
+                Debug.Log(hit.transform.name);
+                hitEffect.transform.position = hit.point;
+                hitEffect.Play();
+                if (hit.transform.TryGetComponent(out EnemyHealthController damageable))
+                {
+                    Instantiate(hitEffect, hit.point, hit.transform.rotation);
+                    damageable.TakeDamage(_damage);
+                }
+            }
         }
         
         private void OnDrawGizmos()

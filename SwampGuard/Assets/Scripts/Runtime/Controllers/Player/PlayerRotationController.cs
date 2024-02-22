@@ -1,26 +1,26 @@
 using UnityEngine;
 
-namespace Runtime.Controllers
+namespace Runtime.Controllers.Player
 {
     public class PlayerRotationController : MonoBehaviour
     {
-        private Vector2 XYRotation;
+        private Vector2 _xyRotation;
 
         private void Start()
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-        internal void Rotate(Transform playerCamera,Vector2 sensivities)
+        internal void Rotate(Transform playerCamera,Vector2 sensitivities)
         {
             Vector2 input = InputManager.Instance.GetMousePosition();
-            XYRotation.x -= input.y * sensivities.y * Time.deltaTime;
-            XYRotation.y += input.x * sensivities.x * Time.deltaTime;
+            _xyRotation.x -= input.y * sensitivities.y * Time.deltaTime;
+            _xyRotation.y += input.x * sensitivities.x * Time.deltaTime;
 
-            XYRotation.x = Mathf.Clamp(XYRotation.x, -90f, 90f);
+            _xyRotation.x = Mathf.Clamp(_xyRotation.x, -90f, 90f);
 
-            transform.eulerAngles = new Vector3(0, XYRotation.y, 0);
-            playerCamera.localEulerAngles = new Vector3(XYRotation.x, 0, 0);
+            transform.eulerAngles = new Vector3(0, _xyRotation.y, 0);
+            playerCamera.localEulerAngles = new Vector3(_xyRotation.x, 0, 0);
         }
     }
 }

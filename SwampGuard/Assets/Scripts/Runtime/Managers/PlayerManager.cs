@@ -1,6 +1,6 @@
-using Runtime.Controllers;
+using Runtime.Controllers.Player;
 using UnityEngine;
-
+using UnityEngine.Serialization;
 
 namespace Runtime.Managers
 {
@@ -20,15 +20,14 @@ namespace Runtime.Managers
 
         [Header("Rotation Settings")]
         [SerializeField] private Transform playerCamera;
-        [SerializeField] private Vector2 sensitivies;
+        [SerializeField] private Vector2 sensitivities;
 
 
         private void Update()
         {
             movementController.MovePlayer(moveSmoothTime, gravityStrength, jumpStrength, walkSpeed, runSpeed);
-            rotationController.Rotate(playerCamera,sensitivies);
+            rotationController.Rotate(playerCamera,sensitivities);
         }
-
     }
 
 }
