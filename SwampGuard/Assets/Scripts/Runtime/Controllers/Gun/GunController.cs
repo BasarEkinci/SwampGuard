@@ -1,9 +1,9 @@
 using Runtime.Data;
-using Runtime.Managers;
 using TMPro;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Runtime.Controllers.Enemy;
+using Runtime.Signals;
 
 namespace Runtime.Controllers.Gun
 {
@@ -11,9 +11,13 @@ namespace Runtime.Controllers.Gun
     {
 
         #region Editor Properties
-        [Header("References")]
+        [Header("References")][Space(10)]
+        [SerializeField] private GunSoundController soundController;
         [SerializeField] private GunData gunData;
+        [Header("UI References")][Space(10)]
         [SerializeField] private TMP_Text ammoText;
+        
+        [Header("Effects")][Space(10)]
         [SerializeField] private ParticleSystem muzzleFlash;
         [SerializeField] private ParticleSystem hitEffect;
 
@@ -73,7 +77,7 @@ namespace Runtime.Controllers.Gun
                 _animator.SetBool(IsShooting, true);
                 muzzleFlash.Play();
                 DetectEnemy();
-                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.ShotSound);
+                soundController.PlayShotSound();
                 _currentAmmo--;
                 await UniTask.Delay(_fireRate);
                 _animator.SetBool(IsShooting, false);
@@ -81,7 +85,7 @@ namespace Runtime.Controllers.Gun
             }
             else
             {
-                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.EmptyShotSound);
+                soundController.PlayEmptyShotSound();
             }
         }
 
@@ -93,10 +97,10 @@ namespace Runtime.Controllers.Gun
                 _isReloading = true;
                 _animator.SetBool(IsReloading, true);
                 await UniTask.Delay(_oneBulletReloadTime); 
-                SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.ReloadSound);
+                soundController.PlayReloadSound();
                 _currentAmmo++;
             }
-            SoundManager.Instance.PlayOneShot((int)GunSoundEffectsEnum.LoadSound);
+            soundController.PlayLoadSound();
             _animator.SetBool(IsReloading, false);
             _isReloading = false;
         }
@@ -109,9 +113,10 @@ namespace Runtime.Controllers.Gun
                 Debug.Log(hit.transform.name);
                 hitEffect.transform.position = hit.point;
                 hitEffect.Play();
+                PlayerSignals.Instance.OnHitEnemy?.Invoke();
                 if (hit.transform.TryGetComponent(out EnemyHealthController damageable))
                 {
-                    Instantiate(hitEffect, hit.point, hit.transform.rotation);
+                    Instantiate(hitEffect, hit.point + Vector3.back / 4f, hit.transform.rotation);
                     damageable.TakeDamage(_damage);
                 }
             }

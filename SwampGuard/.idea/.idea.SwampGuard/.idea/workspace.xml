@@ -5,26 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af8023b6-56ee-4d20-a600-c55fbb01b4e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Art/Sounds/EmptyGunShot.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/Sounds/EmptyGunShot.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/Sounds/EmptyShot.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/Sounds/EmptyShot.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/VFX/BloodEffect.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/VFX/BloodEffect/BloodEffect.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/VFX/BloodEffect/BloodEffect.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/VFX/BloodEffect/BloodEffectShaderGraph.shadergraph" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Art/VFX/BloodEffect/BloodEffectShaderGraph.shadergraph.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/VFX.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/VFX/blood.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/VFX/blood.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Art/Icons/focus-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Art/Icons/focus-2.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Gun/GunSoundController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Gun/GunSoundController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/UIManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/UIManager.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Signals.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Signals/PlayerSignals.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Signals/PlayerSignals.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SwampGuard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SwampGuard/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Prefabs/VFX/blood.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Prefabs/VFX/blood.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MainScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Gun/GunController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Gun/GunController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Player/PlayerMovementController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Player/PlayerMovementController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Player/PlayerRotationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Controllers/Player/PlayerRotationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/PlayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/SoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Runtime/Managers/SoundManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +116,9 @@
       <workItem from="1708362928724" duration="362000" />
       <workItem from="1708363691600" duration="4973000" />
       <workItem from="1708456707215" duration="1713000" />
-      <workItem from="1708595892972" duration="326000" />
+      <workItem from="1708595892972" duration="522000" />
+      <workItem from="1708615544281" duration="2992000" />
+      <workItem from="1709476898209" duration="1858000" />
     </task>
     <servers />
   </component>
