@@ -68,6 +68,7 @@ namespace Runtime.Controllers.Gun
                 Reload();
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private async void Shoot()
         {
             if(_isReloading || _isShooting) return;
@@ -81,6 +82,7 @@ namespace Runtime.Controllers.Gun
                 _currentAmmo--;
                 await UniTask.Delay(_fireRate);
                 _animator.SetBool(IsShooting, false);
+                await UniTask.Delay(_fireRate);
                 _isShooting = false;
             }
             else
@@ -89,6 +91,7 @@ namespace Runtime.Controllers.Gun
             }
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private async void Reload()
         {
             if(_currentAmmo >= _maxAmmo || _isReloading || _isShooting) return;
@@ -110,13 +113,12 @@ namespace Runtime.Controllers.Gun
             Ray ray = new Ray(gunBarrel.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, fireRange, layerMask))
             {
-                Debug.Log(hit.transform.name);
                 hitEffect.transform.position = hit.point;
                 hitEffect.Play();
                 PlayerSignals.Instance.OnHitEnemy?.Invoke();
                 if (hit.transform.TryGetComponent(out EnemyHealthController damageable))
                 {
-                    Instantiate(hitEffect, hit.point + Vector3.back / 4f, hit.transform.rotation);
+                    Instantiate(hitEffect, hit.point + Vector3.back / 4f, Quaternion.Euler(180f,hit.transform.rotation.y,hit.transform.rotation.z));
                     damageable.TakeDamage(_damage);
                 }
             }
